@@ -210,7 +210,7 @@
         btn.innerText = msg;
         
       }*/
-      function awaitBtnClick(msg) {
+      /*function awaitBtnClick2(msg) {
         return new Promise((res) => {
           const btn = document.createElement("button");
           btn.innerText = msg;
@@ -221,6 +221,26 @@
             res();
           }, {once: true});
         });
+      }*/
+      async function awaitBtnClick(msg) {
+        const p = new Promise((res) => {
+          try {
+          const btn = document.createElement("button");
+          btn.innerText = msg;
+          document.body.appendChild(btn);
+          btn.addEventListener("click", () => {
+            console.info("continuing");
+            btn.remove();
+            res();
+          }, {once: true});
+          } catch (err) {
+            console.error(err);
+            // res(err):
+            res(err);
+          }
+        });
+        await p;
+        return;
       }
 
       function delay(ms) {
