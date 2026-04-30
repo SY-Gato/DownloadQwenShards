@@ -73,7 +73,8 @@
 
     <script>
       try{
-        var script=document.createElement("script");script.src="//cdn.jsdelivr.net/npm/eruda",document.body.appendChild(script),alert(script),setTimeout((function(){eruda.init()}),1e3),script.onload=function(){alert("Loaded"),eruda.init()}
+        // var script=document.createElement("script");script.src="//cdn.jsdelivr.net/npm/eruda",document.body.appendChild(script),alert(script),setTimeout((function(){eruda.init()}),1e3),script.onload=function(){alert("Loaded"),eruda.init()}
+        var script=document.createElement("script");script.src="//cdn.jsdelivr.net/npm/eruda",document.body.appendChild(script),setTimeout((function(){eruda.init()}),1e3),script.onload=function(){eruda.init()}
       }catch(t){
         alert(t)
       }
@@ -205,9 +206,9 @@
         updateProg(0.1);
         console.log(count + " files to download");
           console.log(files);
-        } catch (err) {
+        /*} catch (err) {
           console.error(err);
-        }
+        }*/
         
         console.log("STARTING ZIP");
         for (const key of Object.keys(files)) {
@@ -227,6 +228,9 @@
         // downloadBlob(asyncBlob, allFiles)
         // downloadBlob(asyncBlob, "allFiles")
         downloadBlob(asyncBlob, "allFiles");
+        } catch (err) {
+          console.error(err);
+        }
       }
       
       function start() {
