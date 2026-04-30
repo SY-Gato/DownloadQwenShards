@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=320, initial-scale=1">
+    <meta charset="utf-8">
+    <style>
+      body, html {
+        min-width: 100%;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+        font: Arial 14px;
+      }
+    </style>
+    <!--<link rel="stylesheet" href="style.css"/>-->
+    <!--<script defer src="script.js"></script>-->
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+      #outerProg {
+        display: block;
+        width: 80vw;
+        height: 5vh;
+        /*background-color: 3efef*/
+        background-color: rgb(70, 70, 70);
+        position: relative;
+      }
+      #innerProg {
+        display: block;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        /*background-color: rgb(200, 80, 808)*/
+        /*background-color: rgb(80, 80, 200)*/
+        /*background-color: rgb(140, 140, 200)*/
+        /*background-color: rgb(10, 140, 200)*/
+        background-color: rgb(10, 140, 200);
+        height: 100%;
+        /*width: var(--widthV)*/
+        /*width: var(--widthV)*/
+        width: calc(var(--widthV, 0) * 100%);
+      }
+    </style>
+    <!-- <script src="jszip.j" -->
+    <!-- <script src="jszip.js"< -->
+    <script src="jszip.js"></script>
+  </head>
+  <body>
+    
+    <div id="outerProg">
+      <div id="innerProg">
+        
+      </div>
+    </div>
+    <h1 id="prog">0%</h1>
+    
+    <button onclick="start()">
+      Start
+    </button>
+    
+    <!--<script>
+      
+      
+      
+    </script>-->
+
+    <script>
+      try{
+        // var script=document.createElement("script");script.src="//cdn.jsdelivr.net/npm/eruda",document.body.appendChild(script),alert(script),setTimeout((function(){eruda.init()}),1e3),script.onload=function(){alert("Loaded"),eruda.init()}
+        var script=document.createElement("script");script.src="//cdn.jsdelivr.net/npm/eruda",document.body.appendChild(script),setTimeout((function(){eruda.init()}),1e3),script.onload=function(){eruda.init()}
+      }catch(t){
+        alert(t)
+      }
+    </script>
+
+    
+    <script>
+      //const g = (id) => document.querySelector()
+      // const g = document.querySelector;
+      const g = (id) => document.querySelector(id);
+      
+      const inp = g("#innerProg");
+      const pV = g("#prog");
+      
+      const rl = "https://huggingface.co/mlc-ai/Qwen2.5-3B-Instruct-q4f16_1-MLC/resolve/main/";
+      
+      const r2 = "https://api-inference.huggingface.co/mlc-ai/Qwen2.5-3B-Instruct-q4f16_1-MLC/resolve/main/";
+      
+      function grlOld(fileName) {
+        // return (new URL(fileName, rl)).href
+        return (new URL(fileName, rl)).href;
+      }
+      
+      function grl(fileName) {
+        // return (new URL(fileName, rl)).href
+        return (new URL(fileName, r2)).href;
+      }
+      
+      function reset() {
+        // inp.dataset.widthV = "0";
+        inp.style.cssText = "--widthV:0;";
+        prog.innerText = "0%";
+      }
+      
+      // function updateProg(prog) {
+      function updateProg(prog1) {
+        // prog: float 0-1
+        // inp.dataset.widthV = String(prog);
+        // inp.dataset.widthV = String(prog1);
+        // inp.dataset.widthV = `--widthV:${prog1};`;
+        inp.style.cssText = `--widthV:${prog1};`;
+        // prog.innerText = `${prog * 100)%`;
+        prog.innerText = `${prog1 * 100}%`;
+      }
+      
+      /*{
+    "proxy": "http://173.42.49.102:8090",
+    "protocol": "http",
+    "ip": "173.42.49.102",
+    "port": 8090,
+    "https": true,
+    "anonymity": "transparent",
+    "score": 1,
+    "geolocation": {
+      "country": "US",
+      "city": "Unknown"
+    }
+  },*/
+      /*{
+    "proxy": "http://12.180.8.59:443",
+    "protocol": "http",
+    "ip": "12.180.8.59",
+    "port": 443,
+    "https": true,
+    "anonymity": "transparent",
+    "score": 1,
+    "geolocation": {
+      "country": "US",
+      "city": "Unknown"
+    }
+  },*/
+      
+      /*function downloadText(txt, file) {
+        const blob = new Blob([txt], {})
+      }*/
+      
+      /*function downloadBlobOLD1(blob, filename) {
+        const newUrl = URL.createObjectURL(blob);
+        const aElem = document.createElement("a");
+        //a.style = "display: none;";
+        //a.
+        a.href = newUrl;
+        a.download = filename;
+        // a.innerTx
+        a.click();
+        // a.remve
+        a.remove();
+        // URL.revokeObject
+        //setTimeout(() => URL.revokeObjectURL(newUrl), 15000);
+        return newUrl;
+      }*/
+
+      function downloadBlob(blob, filename) {
+        const newUrl = URL.createObjectURL(blob);
+        const aElem = document.createElement("a");
+        //a.style = "display: none;";
+        //a.
+        aElem.href = newUrl;
+        aElem.download = filename;
+        // a.innerTx
+        aElem.click();
+        // a.remve
+        // aElem.remove();
+        // URL.revokeObject
+        //setTimeout(() => URL.revokeObjectURL(newUrl), 15000);
+        return newUrl;
+      }
+      // function openBlob(blob, filename) {
+      // function openBlob(blob) {
+      /*function openBlob2(blob, filename) {
+        const newUrl = URL.createObjectURL(blob);
+        window.open(newUrl, "_blank");
+        // setTimeout(() => URL.
+        setTimeout(() => URL.revokeObjectURL(newUrl), 15000);
+      }
+      function openBlob(blob, filename) {
+        const newUrl = URL.createObjectURL(blob);
+        const aElem = document.createElement("a");
+        //a.style = "display: none;";
+        //a.
+        a.href = newUrl;
+        a.download = filename;
+        // a.innerTx
+        a.click();
+        // a.remve
+        a.remove();
+        // URL.revokeObject
+        setTimeout(() => URL.revokeObjectURL(newUrl), 15000);
+      }*/
+
+      /*asnyc function awaitBtnClick(msg) {
+        /const btn = document.createElement("button");
+        btn.innerText = msg;
+        
+      }*/
+      /*function awaitBtnClick2(msg) {
+        return new Promise((res) => {
+          const btn = document.createElement("button");
+          btn.innerText = msg;
+          document.body.appendChild(btn);
+          btn.addEventListener("click", () => {
+            console.info("continuing");
+            btn.remove();
+            res();
+          }, {once: true});
+        });
+      }*/
+      async function awaitBtnClick(msg) {
+        const p = new Promise((res) => {
+          try {
+          const btn = document.createElement("button");
+          btn.innerText = msg;
+          document.body.appendChild(btn);
+          btn.addEventListener("click", () => {
+            console.info("continuing");
+            btn.remove();
+            res();
+          }, {once: true});
+          } catch (err) {
+            console.error(err);
+            // res(err):
+            res(err);
+          }
+        });
+        await p;
+        return;
+      }
+
+      function delay(ms) {
+        return new Promise((res) => {
+          setTimeout(res, ms);
+        });
+      }
+      
+      async function main() {
+        try {
+        reset();
+        
+        let zip = new JSZip();
+        
+        // const r1 = fetch("tensor_cache.json");
+        const r1 = fetch("./tensor_cache.json");
+        const resJSON = await r1;
+        // console.log(r1.ok);
+        console.log(resJSON.ok);
+        const json = await resJSON.json();
+        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json["metadata"]["records"]));
+        // console.log(JSON.stringify(json.metadata.records));
+        console.log(json.metadata);
+        //window.j = json;
+        
+        let files = {};
+        
+        let count = 0;
+        
+        // for (const record of json["metadata"]["records"]) {
+          for (const record of json["records"]) {
+          count++;
+          // files["dataPath"]
+          // const mainFile = json["metadata"]
+          const mainFile = record["dataPath"];
+          
+          files[mainFile] = grl(mainFile);
+          
+          /*for (const record2 of record["records"]) {
+            const thisFile = record2["name"];
+            files[thisFile] = grl(thisFile);
+            count++;
+          }*/
+        }
+        updateProg(0.1);
+        console.log(count + " files to download");
+          console.log(files);
+        /*} catch (err) {
+          console.error(err);
+        }*/
+
+        // let chunkedFiles = {};
+        let chunkedFiles = [];
+        /*for (const key of Object.keys(files)) {
+          
+        }*/
+        const keys = Object.keys(files);
+        // const filesPerZip = 5;
+        const filesPerZip = 2;
+        // total files = "count"
+        // Total zip files = files per zip
+        // Total zip files = ceil(total files / files per zip)
+        // const zipFiles = 
+        // const zipCount = Math.ceil(count / filesPerZip);
+        let zipCount = 0;
+
+        // for (let i = 0; i < zipCount
+        for (let i = 0; i < keys.length; i += filesPerZip) {
+          zipCount++;
+          /*const n1 = keys[i];
+          const n2 = keys[i + 1];
+          const ne*/
+          let curChunk = {};
+          for (let j = 0; j < filesPerZip; j++) {
+            const curKey = keys[i + j];
+            // if (curKey
+            if (curKey == undefined) {
+              break;
+            } else {
+              curChunk[curKey] = files[curKey];
+            }
+          }
+          chunkedFiles.push(curChunk);
+        }
+
+        console.log(chunkedFiles);
+        //return;
+          
+        // let fileCount = Object.keys(files).length;
+        /*let fileCount = count;
+        let fileProg = 0;
+        let fProgMult = 0.9;
+        let fProgAdd = 0.1;*/
+        let fProgAdd = 0.1;
+        let fProgMult = 0.9;
+        let fileProg = 0;
+        let fileCount = count + zipCount;
+          
+        console.log("STARTING ZIP");
+        /*for (const key of Object.keys(files)) {
+          const file = files[key];
+          // const res = await fetch(key)
+          const res = await fetch(file);
+          
+          const txt = await res.text();
+          
+          // zip.file("")
+          zip.file(key, txt);
+          console.log(key);
+          fileProg++;
+          updateProg(fProgAdd + (fProgMult * (fileProg / fileCount)));
+        }*/
+       /*for (let i = 0; i < fileCount; i++) {
+       }*/
+        // for (let i = 0; i < chunkedFiles.length; i++) {
+          for (let i = 24; i < chunkedFiles.length; i++) {
+          const curChunk = chunkedFiles[i];
+          // let thisZip = 
+          let curZip = new JSZip();
+          for (const key of Object.keys(curChunk)) {
+            // const file = files[
+            const file = curChunk[key];
+            const res = await fetch(file);
+            const txt = await res.text();
+            // curZip.file(key, txt
+            curZip.file(key, txt);
+            console.log(key);
+            fileProg++;
+            updateProg(fProgAdd + (fProgMult * (fileProg / fileCount)));
+          }
+          // const zipBlob = await zip.generateAsync({type: "blob"});
+          // let zipBlob = await zip.generateAsync({type: "blob"});
+          let zipBlob = await curZip.generateAsync({type: "blob"});
+          fileProg++;
+          updateProg(fProgAdd + (fProgMult * (fileProg / fileCount)));
+          console.log("DOWNLOADING ZIP");
+          const zipName = `qwenChunks${i}`;
+          console.log(zipName);
+          // const url = downloadBlob(zipBlob);
+          // const url = downloadBlob(zipBlob, zipName);
+          const zipName2 = `${zipName}.zip`;
+          // const url = downloadBlob(zipBlob, zipName2);
+          // let objUrl = downlaodBlob(zipBlob, zipName2);
+          let objUrl = downloadBlob(zipBlob, zipName2);
+          // await delay(10000);
+          await awaitBtnClick("Continue??????");
+          
+
+          // URL.revokeObjectURL(url);
+          // zip = null;
+          URL.revokeObjectURL(objUrl);
+          
+
+          curZip = undefined;
+          zipBlob = undefined;
+          objUrl = undefined;
+        }
+        
+        // zip.generateAsync
+        // const asyncBloc
+        // const asyncBlob = await zip.generateAsync({type: "blob"});
+        // downloadBlob(asyncBlob, allFiles)
+        // downloadBlob(asyncBlob, "allFiles")
+        // downloadBlob(asyncBlob, "allFiles");
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      
+      function start() {
+        main();
+      }
+    </script>
+  </body>
+</html>
