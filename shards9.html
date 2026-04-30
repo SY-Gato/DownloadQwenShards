@@ -151,7 +151,7 @@
         const blob = new Blob([txt], {})
       }*/
       
-      function downloadBlob(blob, filename) {
+      function downloadBlobOLD1(blob, filename) {
         const newUrl = URL.createObjectURL(blob);
         const aElem = document.createElement("a");
         //a.style = "display: none;";
@@ -162,6 +162,22 @@
         a.click();
         // a.remve
         a.remove();
+        // URL.revokeObject
+        //setTimeout(() => URL.revokeObjectURL(newUrl), 15000);
+        return newUrl;
+      }
+
+      function downloadBlob(blob, filename) {
+        const newUrl = URL.createObjectURL(blob);
+        const aElem = document.createElement("a");
+        //a.style = "display: none;";
+        //a.
+        aElem.href = newUrl;
+        aElem.download = filename;
+        // a.innerTx
+        aElem.click();
+        // a.remve
+        aElem.remove();
         // URL.revokeObject
         //setTimeout(() => URL.revokeObjectURL(newUrl), 15000);
         return newUrl;
